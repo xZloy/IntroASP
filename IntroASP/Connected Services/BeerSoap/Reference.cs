@@ -161,6 +161,88 @@ namespace BeerSoap
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BeerUpdateDto", Namespace="http://schemas.datacontract.org/2004/07/BeerSoapService")]
+    public partial class BeerUpdateDto : object
+    {
+        
+        private int BrandIdField;
+        
+        private string CountryCodeField;
+        
+        private string FlagUrlField;
+        
+        private int IdField;
+        
+        private string NameField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int BrandId
+        {
+            get
+            {
+                return this.BrandIdField;
+            }
+            set
+            {
+                this.BrandIdField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CountryCode
+        {
+            get
+            {
+                return this.CountryCodeField;
+            }
+            set
+            {
+                this.CountryCodeField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FlagUrl
+        {
+            get
+            {
+                return this.FlagUrlField;
+            }
+            set
+            {
+                this.FlagUrlField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int Id
+        {
+            get
+            {
+                return this.IdField;
+            }
+            set
+            {
+                this.IdField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string Name
+        {
+            get
+            {
+                return this.NameField;
+            }
+            set
+            {
+                this.NameField = value;
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="BeerSoap.IBeerService")]
     public interface IBeerService
@@ -174,6 +256,9 @@ namespace BeerSoap
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/DeleteBeer", ReplyAction="http://tempuri.org/IBeerService/DeleteBeerResponse")]
         System.Threading.Tasks.Task<bool> DeleteBeerAsync(int beerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/UpdateBeer", ReplyAction="http://tempuri.org/IBeerService/UpdateBeerResponse")]
+        System.Threading.Tasks.Task<bool> UpdateBeerAsync(BeerSoap.BeerUpdateDto dto);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
@@ -239,6 +324,11 @@ namespace BeerSoap
         public System.Threading.Tasks.Task<bool> DeleteBeerAsync(int beerId)
         {
             return base.Channel.DeleteBeerAsync(beerId);
+        }
+        
+        public System.Threading.Tasks.Task<bool> UpdateBeerAsync(BeerSoap.BeerUpdateDto dto)
+        {
+            return base.Channel.UpdateBeerAsync(dto);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

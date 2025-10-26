@@ -1,4 +1,5 @@
 ﻿using BeerSoapService;
+using Microsoft.SqlServer.Server;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -57,5 +58,27 @@ namespace BeerSoapService   // <-- anota EXACTO este nombre
             _db.SaveChanges();
             return true;
         }
+        
+            
+        public bool UpdateBeer(BeerUpdateDto dto)
+        {
+            var beer = _db.Beer.FirstOrDefault(b => b.BeerId == dto.Id);
+            if (beer == null)
+                throw new FaultException(string.Format("BeerId {0} no existe.", dto.Id));
+
+            var brandExists = _db.Brand.Any(b => b.BrandId == dto.BrandId);
+            if (!brandExists)
+                throw new FaultException(string.Format("BrandId {0} no existe.", dto.BrandId));
+
+            // Actualizamos campos
+            beer.Name = dto.Name.Trim();
+            beer.BrandId = dto.BrandId;
+            beer.CountryCode = dto.CountryCode ?? null;
+            beer.FlagUrl = dto.FlagUrl ?? null;
+
+            _db.SaveChanges();
+            return true;
+        }
+
     }
 }

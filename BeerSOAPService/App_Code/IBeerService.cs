@@ -15,6 +15,9 @@ namespace BeerSoapService
         [OperationContract]
         bool DeleteBeer(int beerId);
 
+        [OperationContract]
+        bool UpdateBeer(BeerUpdateDto dto);
+
     }
 
     [DataContract]
@@ -35,4 +38,21 @@ namespace BeerSoapService
         [DataMember] public string CountryCode { get; set; }
         [DataMember] public string FlagUrl { get; set; }
     }
+
+    [DataContract]
+    public class BeerUpdateDto
+    {
+        [DataMember(IsRequired = true)]
+        public int Id { get; set; }               // BeerId en la BD
+
+        [DataMember(IsRequired = true)]
+        public string Name { get; set; }
+
+        [DataMember(IsRequired = true)]
+        public int BrandId { get; set; }
+
+        [DataMember] public string CountryCode { get; set; }  // puede ser null
+        [DataMember] public string FlagUrl { get; set; }      // puede ser null
+    }
+
 }
