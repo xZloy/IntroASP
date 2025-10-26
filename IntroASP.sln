@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36327.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntroASP", "IntroASP\IntroASP.csproj", "{B960FBD6-7CD4-4236-9062-35AE6F88AF76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{DDA58F3D-70C1-43B1-98DF-F1B4CA2AFB55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerCsWorker", "BeerCsWorker\BeerCsWorker.csproj", "{D64EA3AD-95D9-4657-8AA4-2F5D21AEAB33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerCsvTask", "BeerCsvTask\BeerCsvTask.csproj", "{DFECABF9-93A1-45E3-BE1D-48F00A371413}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BeerSOAPService", "BeerSOAPService\", "{D14772BF-2062-11DE-9FD2-2DEB7AA7D4B8}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_62255"
+		Debug.AspNetCompiler.PhysicalPath = "BeerSOAPService\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62255\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_62255"
+		Release.AspNetCompiler.PhysicalPath = "BeerSOAPService\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62255\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "62255"
+		SlnRelativePath = "BeerSOAPService\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B960FBD6-7CD4-4236-9062-35AE6F88AF76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B960FBD6-7CD4-4236-9062-35AE6F88AF76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B960FBD6-7CD4-4236-9062-35AE6F88AF76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B960FBD6-7CD4-4236-9062-35AE6F88AF76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDA58F3D-70C1-43B1-98DF-F1B4CA2AFB55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDA58F3D-70C1-43B1-98DF-F1B4CA2AFB55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDA58F3D-70C1-43B1-98DF-F1B4CA2AFB55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDA58F3D-70C1-43B1-98DF-F1B4CA2AFB55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D64EA3AD-95D9-4657-8AA4-2F5D21AEAB33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D64EA3AD-95D9-4657-8AA4-2F5D21AEAB33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D64EA3AD-95D9-4657-8AA4-2F5D21AEAB33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D64EA3AD-95D9-4657-8AA4-2F5D21AEAB33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFECABF9-93A1-45E3-BE1D-48F00A371413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFECABF9-93A1-45E3-BE1D-48F00A371413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFECABF9-93A1-45E3-BE1D-48F00A371413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFECABF9-93A1-45E3-BE1D-48F00A371413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D14772BF-2062-11DE-9FD2-2DEB7AA7D4B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D14772BF-2062-11DE-9FD2-2DEB7AA7D4B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D14772BF-2062-11DE-9FD2-2DEB7AA7D4B8}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{D14772BF-2062-11DE-9FD2-2DEB7AA7D4B8}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0160680B-7AE1-4A47-B9CE-1AAA5855CA41}
+	EndGlobalSection
+EndGlobal

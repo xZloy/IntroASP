@@ -1,0 +1,145 @@
+﻿ @{
+    Layout = "_Layout";
+}
+
+<h2>Cervezas (API)</h2>
+
+<div style="margin:10px 0; display:flex; gap:8px;">
+    <button id="btnNuevo" class="btn btn-success">Nuevo</button>
+    <a asp-controller="Beer" asp-action="ExportCsv" class="btn btn-secondary">
+        Exportar CSV
+    </a>
+
+    <a asp-controller="Beer" asp-action="ExportPdf" class="btn btn-secondary">
+        Exportar PDF
+    </a>
+</div>
+
+<table class="table" id="tblBeers">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th style="width:180px">Acciones</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35);">
+    <div style="background:#fff; width:420px; margin:10% auto; padding:16px; border-radius:8px">
+        <h3 id="modalTitle">Editar Cerveza</h3>
+        <form id="frmBeer">
+            <input type="hidden" id="BeerId" />
+            <div style="margin-bottom:8px">
+                <label>Nombre</label><br />
+                <input id="Name" required />
+            </div>
+            <div style="margin-bottom:8px">
+                <label>Marca</label><br />
+                <select id="BrandId" required></select>
+            </div>
+            <div style="display:flex; gap:8px; justify-content:flex-end">
+                <button type="button" id="btnCancel">Cancelar</button>
+                <button type="submit" id="btnSave">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (() => {
+          const API_BEERS  = "/api/beers";
+          const API_BRANDS = "/api/brand";
+
+          const tbody = document.querySelector("#tblBeers tbody");
+          const modal = document.getElementById("modal");
+          const frm = document.getElementById("frmBeer");
+          const btnNuevo = document.getElementById("btnNuevo");
+          const btnCancel = document.getElementById("btnCancel");
+          const brandSelect = document.getElementById("BrandId");
+          const $ = (id) => document.getElementById(id);
+
+          const getId      = (o) => o.beerId  ?? o.BeerId;
+          const getName    = (o) => o.name    ?? o.Name;
+          const getBrandId = (o) => o.brandId ?? o.BrandId;
+          const getBrandName = (o) => o.name ?? o.Name;
+          const getBrandKey  = (o) => o.brandId ?? o.BrandId;
+
+          function openModal(title){ $("modalTitle").textContent = title; modal.style.display="block"; }
+          function closeModal(){ modal.style.display="none"; frm.reset(); $("BeerId").value=""; }
+
+          async function loadBrands(){
+            const res = await fetch(API_BRANDS);
+            const data = await res.json();
+            brandSelect.innerHTML = "<option value=''>-- Selecciona --</option>";
+            for (const b of data){
+              const opt = document.createElement("option");
+              opt.value = getBrandKey(b);
+              opt.textContent = getBrandName(b);
+              brandSelect.appendChild(opt);
+            }
+          }
+
+          async function listar(){
+            const res = await fetch(API_BEERS);
+            const data = await res.json();
+            tbody.innerHTML = "";
+            for (const b of data){
+              const tr = document.createElement("tr");
+              tr.innerHTML = `
+                <td>${getId(b)}</td>
+                <td>${getName(b) ?? ""}</td>
+                <td>${getBrandId(b)}</td>
+                <td>
+                  <button data-id="${getId(b)}" class="btn btn-warning btn-sm btn-edit">Editar</button>
+                  <button data-id="${getId(b)}" class="btn btn-danger btn-sm btn-del">Eliminar</button>
+                </td>
+              `;
+              tbody.appendChild(tr);
+            }
+          }
+
+          async function crear(dto){
+            await fetch(API_BEERS,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(dto)});
+          }
+          async function actualizar(id,dto){
+            await fetch(`${API_BEERS}/${id}`,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(dto)});
+          }
+          async function eliminar(id){
+            if(!confirm(`¿Eliminar #${id}?`)) return;
+            await fetch(`${API_BEERS}/${id}`,{method:"DELETE"});
+            await listar();
+          }
+          async function editar(id){
+            const r = await fetch(`${API_BEERS}/${id}`);
+            const b = await r.json();
+            $("BeerId").value = getId(b);
+            $("Name").value = getName(b) ?? "";
+            brandSelect.value = getBrandId(b);
+            openModal(`Editar #${getId(b)}`);
+          }
+
+          tbody.addEventListener("click",(e)=>{
+            const t = e.target;
+            if(t.classList.contains("btn-edit")) editar(t.dataset.id);
+            if(t.classList.contains("btn-del")) eliminar(t.dataset.id);
+          });
+          btnNuevo.addEventListener("click",()=>{ frm.reset(); $("BeerId").value=""; openModal("Nueva cerveza"); });
+          frm.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            const id = $("BeerId").value;
+            const dto = { name: $("Name").value.trim(), brandId: Number(brandSelect.value) };
+            (id ? actualizar(id,dto) : crear(dto)).then(()=>{ closeModal(); listar(); });
+          });
+          btnCancel.addEventListener("click", closeModal);
+
+          // Inicio
+          loadBrands().then(listar);
+        })();
+    </script>
+}
+
+

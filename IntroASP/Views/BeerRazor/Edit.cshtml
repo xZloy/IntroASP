@@ -1,0 +1,50 @@
+﻿@model IntroASP.Dtos.BeerDto
+@{
+    var brands = (IEnumerable<SelectListItem>)ViewData["Brands"]!;  
+    var countries = (List<IntroASP.Dtos.CountryDto>)(ViewData["Countries"] ?? new List<IntroASP.Dtos.CountryDto>());
+}
+
+
+<h2>Editar Cerveza #@Model.BeerId</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="BeerId" />
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Marca</label>
+        <select asp-for="BrandId" asp-items="brands" class="form-select" required></select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">País</label>
+        <select id="CountryCode" asp-for="CountryCode" class="form-select">
+            <option value="">-- Selecciona país --</option>
+            @foreach (var c in countries)
+            {
+                <option value="@c.Code" data-flag="@c.FlagPng" data-flag-svg="@c.FlagSvg">
+                    @c.Name (@c.Code)
+                </option>
+            }
+        </select>
+    </div>
+
+    <input type="hidden" asp-for="FlagUrl" />
+
+    @section Scripts{
+        <script>
+            const sel = document.getElementById('CountryCode');
+            const hiddenFlag = document.getElementById('FlagUrl');
+            function syncFlag(){
+              const opt = sel.selectedOptions[0];
+              const url = opt?.getAttribute('data-flag') || opt?.getAttribute('data-flag-svg') || '';
+              hiddenFlag.value = url;
+            }
+            sel.addEventListener('change', syncFlag);
+            syncFlag(); 
+        </script>
+    }
+    <button class="btn btn-warning">Actualizar</button>
+    <a class="btn btn-secondary" asp-action="Index">Volver</a>
+</form>

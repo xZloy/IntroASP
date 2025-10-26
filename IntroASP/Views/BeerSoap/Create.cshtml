@@ -1,0 +1,30 @@
+﻿@using BeerSoap
+@model BeerSoap.BeerCreateDto
+
+<h2>Agregar cerveza (SOAP)</h2>
+
+<form asp-action="Create" method="post">
+  <div class="form-group">
+    <label>Nombre</label>
+    <input asp-for="Name" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label>BrandId</label>
+    <input asp-for="BrandId" type="number" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label>CountryCode</label>
+        <input asp-for="CountryCode" class="form-control" readonly />
+  </div>
+
+  <div class="form-group">
+    <label>FlagUrl</label>
+    <input asp-for="FlagUrl" class="form-control" readonly/>
+  </div>
+
+  <br />
+  <button type="submit" class="btn btn-success">Guardar</button>
+  <a asp-controller="BeerSoap" asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>
