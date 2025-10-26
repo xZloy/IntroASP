@@ -8,7 +8,7 @@ Incluye:
 - Un **Worker Service** que ejecuta tareas en segundo plano.
 - Una **aplicación de consola** para programar tareas mediante **Windows Task Scheduler**.
 - Un **servicio REST API** construido en .NET.
-- Integración con una **API externa** para mostrar información adicional (por ejemplo, banderas de países).
+- Integración con una **API externa** para mostrar información adicional (banderas de países).
 
 ---
 
