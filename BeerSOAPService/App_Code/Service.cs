@@ -24,7 +24,32 @@ namespace BeerSoapService   // <-- anota EXACTO este nombre
                 })
                 .ToList();
         }
+        public List<BrandOptionDto> GetBrands()
+        {
+            return _db.Brand
+                     .OrderBy(b => b.Name)
+                     .Select(b => new BrandOptionDto            //Para el dropdown
+                     {
+                         BrandId = b.BrandId,
+                         Name = b.Name
+                     })
+                     .ToList();
+        }
+        public BeerUpdateDto GetBeerForEdit(int id)
+        {
+            var e = _db.Beer.FirstOrDefault(x => x.BeerId == id);
+            if (e == null)
+                throw new FaultException(string.Format("BeerId {0} no existe.", id));
 
+            return new BeerUpdateDto
+            {
+                Id = e.BeerId,
+                Name = e.Name,
+                BrandId = e.BrandId,
+                CountryCode = e.CountryCode,
+                FlagUrl = e.FlagUrl
+            };
+        }
         public int CreateBeer(BeerCreateDto dto)
         {
             // Validaciones simples

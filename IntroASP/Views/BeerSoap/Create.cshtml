@@ -4,27 +4,34 @@
 <h2>Agregar cerveza (SOAP)</h2>
 
 <form asp-action="Create" method="post">
-  <div class="form-group">
-    <label>Nombre</label>
-    <input asp-for="Name" class="form-control" required />
-  </div>
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
 
-  <div class="form-group">
-    <label>BrandId</label>
-    <input asp-for="BrandId" type="number" class="form-control" required />
-  </div>
+    <div class="mb-3">
+        <label class="form-label">Marca</label>
+        <select asp-for="BrandId" class="form-select" asp-items="ViewBag.Brands"></select>
+        <span asp-validation-for="BrandId" class="text-danger"></span>
+    </div>
 
-  <div class="form-group">
-    <label>CountryCode</label>
-        <input asp-for="CountryCode" class="form-control" readonly />
-  </div>
+    <div class="mb-3">
+        <label class="form-label">CountryCode (opcional)</label>
+        <input asp-for="CountryCode" class="form-control" />
+        <span asp-validation-for="CountryCode" class="text-danger"></span>
+    </div>
 
-  <div class="form-group">
-    <label>FlagUrl</label>
-    <input asp-for="FlagUrl" class="form-control" readonly/>
-  </div>
+    <div class="mb-3">
+        <label class="form-label">FlagUrl (opcional)</label>
+        <input asp-for="FlagUrl" class="form-control" />
+        <span asp-validation-for="FlagUrl" class="text-danger"></span>
+    </div>
 
-  <br />
-  <button type="submit" class="btn btn-success">Guardar</button>
-  <a asp-controller="BeerSoap" asp-action="Index" class="btn btn-secondary">Volver</a>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+
+    <div class="text-danger mt-2">
+        @Html.ValidationSummary()
+    </div>
 </form>

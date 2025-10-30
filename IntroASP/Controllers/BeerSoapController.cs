@@ -1,5 +1,6 @@
 ﻿using BeerSoap;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ServiceModel;
 using System.Threading.Tasks;
 
@@ -7,23 +8,52 @@ namespace IntroASP.Controllers
 {
     public class BeerSoapController : Controller
     {
+        private async Task<List<SelectListItem>> LoadBrandItemsAsync(int? selectedBrandId = null)
+        {
+            var client = new BeerServiceClient();
+            var brands = await client.GetBrandsAsync();
+            await client.CloseAsync();
 
+            var items = brands
+                .Select(b => new SelectListItem
+                {
+                    Value = b.BrandId.ToString(),
+                    Text = b.Name,
+                    Selected = selectedBrandId.HasValue && b.BrandId == selectedBrandId.Value
+                })
+                .ToList();
+
+            return items;
+        }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Brands = await LoadBrandItemsAsync(); 
             return View(new BeerSoap.BeerCreateDto());
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(BeerSoap.BeerCreateDto model)
         {
-            if (!ModelState.IsValid) return View(model);
-
-            var client = new BeerServiceClient(); // o ServiceClient
-            await client.CreateBeerAsync(model);
-            await client.CloseAsync();
-            return RedirectToAction(nameof(Index));
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Brands = await LoadBrandItemsAsync(model.BrandId);
+                return View(model);
+            }
+            try
+            {
+                var client = new BeerServiceClient();
+                await client.CreateBeerAsync(model);
+                await client.CloseAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (FaultException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                ViewBag.Brands = await LoadBrandItemsAsync(model.BrandId);
+                return View(model);
+            }
         }
 
         public async Task<IActionResult> Index()
@@ -50,24 +80,13 @@ namespace IntroASP.Controllers
             var client = new BeerServiceClient();
 
             // trae todos los registros (no hay GetBeerById)
-            var beers = await client.GetBeersAsync();
+            var dto = await client.GetBeerForEditAsync(id); //con brandId
             await client.CloseAsync();
 
-            var b = beers?.FirstOrDefault(x => x.Id == id);
-            if (b == null) return NotFound();
+            if (dto == null) return NotFound();
 
-            // Mapeamos a BeerUpdateDto 
-            var model = new BeerSoap.BeerUpdateDto
-            {
-                Id = b.Id,
-                Name = b.Name,
-                CountryCode = b.CountryCode,
-                FlagUrl = b.FlagUrl
-                // BrandId se ingresa en el formulario
-            };
-
-            ViewBag.CurrentBrand = b.Brand; // para mostrar la marca actual
-            return View(model);
+            ViewBag.Brands = await LoadBrandItemsAsync(dto.BrandId);
+            return View(dto); 
         }
 
         [HttpPost]
@@ -75,30 +94,34 @@ namespace IntroASP.Controllers
         {
             if (!ModelState.IsValid)
             {
-                
+
+                ViewBag.Brands = await LoadBrandItemsAsync(model.BrandId);
                 return View(model);
             }
 
             try
             {
-                var client = new BeerSoap.BeerServiceClient();
-                await client.UpdateBeerAsync(new BeerSoap.BeerUpdateDto
+                var client = new BeerServiceClient();
+
+                // Asegura que envías el tipo del proxy
+                var dto = new BeerSoap.BeerUpdateDto
                 {
                     Id = model.Id,
                     Name = model.Name,
                     BrandId = model.BrandId,
                     CountryCode = model.CountryCode,
                     FlagUrl = model.FlagUrl
-                });
+                };
 
+                await client.UpdateBeerAsync(dto);
                 await client.CloseAsync();
-
                 return RedirectToAction(nameof(Index));
             }
             catch (FaultException ex)
             {
                 // Mensaje que envía el WCF (por ejemplo BrandId no existe)
                 ModelState.AddModelError(string.Empty, ex.Message);
+                ViewBag.Brands = await LoadBrandItemsAsync(model.BrandId);
                 return View(model);
             }
         }

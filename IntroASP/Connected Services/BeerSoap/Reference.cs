@@ -96,15 +96,11 @@ namespace BeerSoap
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="BeerCreateDto", Namespace="http://schemas.datacontract.org/2004/07/BeerSoapService")]
-    public partial class BeerCreateDto : object
+    [System.Runtime.Serialization.DataContractAttribute(Name="BrandOptionDto", Namespace="http://schemas.datacontract.org/2004/07/BeerSoapService")]
+    public partial class BrandOptionDto : object
     {
         
         private int BrandIdField;
-        
-        private string CountryCodeField;
-        
-        private string FlagUrlField;
         
         private string NameField;
         
@@ -118,32 +114,6 @@ namespace BeerSoap
             set
             {
                 this.BrandIdField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string CountryCode
-        {
-            get
-            {
-                return this.CountryCodeField;
-            }
-            set
-            {
-                this.CountryCodeField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string FlagUrl
-        {
-            get
-            {
-                return this.FlagUrlField;
-            }
-            set
-            {
-                this.FlagUrlField = value;
             }
         }
         
@@ -243,6 +213,73 @@ namespace BeerSoap
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BeerCreateDto", Namespace="http://schemas.datacontract.org/2004/07/BeerSoapService")]
+    public partial class BeerCreateDto : object
+    {
+        
+        private int BrandIdField;
+        
+        private string CountryCodeField;
+        
+        private string FlagUrlField;
+        
+        private string NameField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int BrandId
+        {
+            get
+            {
+                return this.BrandIdField;
+            }
+            set
+            {
+                this.BrandIdField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CountryCode
+        {
+            get
+            {
+                return this.CountryCodeField;
+            }
+            set
+            {
+                this.CountryCodeField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FlagUrl
+        {
+            get
+            {
+                return this.FlagUrlField;
+            }
+            set
+            {
+                this.FlagUrlField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string Name
+        {
+            get
+            {
+                return this.NameField;
+            }
+            set
+            {
+                this.NameField = value;
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="BeerSoap.IBeerService")]
     public interface IBeerService
@@ -250,6 +287,12 @@ namespace BeerSoap
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/GetBeers", ReplyAction="http://tempuri.org/IBeerService/GetBeersResponse")]
         System.Threading.Tasks.Task<BeerSoap.BeerDto[]> GetBeersAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/GetBrands", ReplyAction="http://tempuri.org/IBeerService/GetBrandsResponse")]
+        System.Threading.Tasks.Task<BeerSoap.BrandOptionDto[]> GetBrandsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/GetBeerForEdit", ReplyAction="http://tempuri.org/IBeerService/GetBeerForEditResponse")]
+        System.Threading.Tasks.Task<BeerSoap.BeerUpdateDto> GetBeerForEditAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/CreateBeer", ReplyAction="http://tempuri.org/IBeerService/CreateBeerResponse")]
         System.Threading.Tasks.Task<int> CreateBeerAsync(BeerSoap.BeerCreateDto dto);
@@ -314,6 +357,16 @@ namespace BeerSoap
         public System.Threading.Tasks.Task<BeerSoap.BeerDto[]> GetBeersAsync()
         {
             return base.Channel.GetBeersAsync();
+        }
+        
+        public System.Threading.Tasks.Task<BeerSoap.BrandOptionDto[]> GetBrandsAsync()
+        {
+            return base.Channel.GetBrandsAsync();
+        }
+        
+        public System.Threading.Tasks.Task<BeerSoap.BeerUpdateDto> GetBeerForEditAsync(int id)
+        {
+            return base.Channel.GetBeerForEditAsync(id);
         }
         
         public System.Threading.Tasks.Task<int> CreateBeerAsync(BeerSoap.BeerCreateDto dto)

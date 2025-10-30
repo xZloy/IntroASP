@@ -8,7 +8,10 @@ namespace BeerSoapService
     {
         [OperationContract]
         List<BeerDto> GetBeers();
-
+        [OperationContract]
+        List<BrandOptionDto> GetBrands();
+        [OperationContract]
+        BeerUpdateDto GetBeerForEdit(int id);
         [OperationContract]
         int CreateBeer(BeerCreateDto dto);   // devuelve el nuevo BeerId
 
@@ -55,4 +58,13 @@ namespace BeerSoapService
         [DataMember] public string FlagUrl { get; set; }      // puede ser null
     }
 
+    [DataContract]
+    public class BrandOptionDto
+    {
+        [DataMember(IsRequired = true)]
+        public int BrandId { get; set; }
+
+        [DataMember(IsRequired = true)]
+        public string Name { get; set; }
+    }
 }
